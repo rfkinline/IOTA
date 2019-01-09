@@ -1,3 +1,5 @@
+# Original program by https://gist.github.com/huggre
+
 # Import libraries
 from datetime import datetime
 import json
