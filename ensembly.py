@@ -20,7 +20,7 @@ try:
     while True:
         print("\nIOTA ensembled products")
         print("Press Ctrl+C to exit the system")
-        ensembled_products = input("\nNumber of ensembled products: ")
+        ensembled_products = input("\nEnter number of ensembled products and hit Enter: ")
         print("\nThank you, now hold your ID card near the reader")       
         
         id, text = reader.read()
