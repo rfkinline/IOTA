@@ -40,5 +40,5 @@ try:
         print("\nTransaction sucessfully recorded")
                 
 except KeyboardInterrupt:
-    print("cleaning up")
+    print("\ncleaning up")
 GPIO.cleanup()
