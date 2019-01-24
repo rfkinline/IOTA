@@ -4,7 +4,9 @@
 from datetime import datetime
 import json
 import iota
+import sys
 import RPi.GPIO as GPIO
+sys.path.append('/home/pi/MFRC522-python')
 import SimpleMFRC522
 
 # IOTA address
