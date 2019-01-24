@@ -35,7 +35,7 @@ result = api.find_transactions(addresses=address)
 myhashes = result['hashes']
 
 # Print wait message
-print("Please wait while retrieving cleaning records from the tangle...")
+print("Please wait while retrieving voting records from the tangle...")
 
 # Loop trough all transaction hashes
 for txn_hash in myhashes:
