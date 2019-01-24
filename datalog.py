@@ -26,7 +26,7 @@ api = Iota(iotaNode)
 x = PrettyTable()
 
 # Specify column headers for the table
-x.field_names = ["tagID", "product", "ensembled_products", "last_cleaned"]
+x.field_names = ["tagID", "tagText", "project", "casted_vote", "last_cleaned"]
 
 # Find all transacions for selected IOTA address
 result = api.find_transactions(addresses=address)
@@ -65,9 +65,9 @@ for txn_hash in myhashes:
     json_data = json.loads(txn_data)
     
     # Check if json data has the expected json tag's
-    if all(key in json.dumps(json_data) for key in ["tagID","product","ensembled_products"]):
+    if all(key in json.dumps(json_data) for key in ["tagID","project","casted_vote"]):
         # Add table row with json values
-        x.add_row([json_data['tagID'], json_data['product'], json_data['ensembled_products'], clean_time])
+        x.add_row([json_data['tagID'], json_data['tagText'],json_data['project'], json_data['casted_vote'], clean_time])
 
 # Sort table by cleaned datetime
 x.sortby = "last_cleaned"
