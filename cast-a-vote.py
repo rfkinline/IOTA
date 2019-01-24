@@ -15,18 +15,18 @@ CleaningLogAddr = b"XUHJLCCEJSNGQNYHVEGDRCZWXDBZTZMFCSURNCB99XBVRRXSGIBQJDPYRUJV
 # IOTA full node
 api = iota.Iota("https://nodes.thetangle.org:443")
 
-project = "RFID Miami"
+project = "Voting via RFID"
 reader = SimpleMFRC522.SimpleMFRC522()
 
 try:
     while True:
         print("\nIOTA Project Voting")
         print("Press Ctrl+C to exit the system")
-        ensembled_products = input("\nCast your vote (YES/NO) and hit Enter: ")
+        casted_vote = raw_input("\nCast your vote (YES/NO) and hit Enter: ")
         print("\nThank you, now hold your ID card near the reader")       
         
         id, text = reader.read()
-        data = {'tagID': str(id), 'project': project, 'ensembled_products': ensembled_products}
+        data = {'tagID': str(id), 'tagText':str(text), 'project': project, 'casted_vote': casted_vote}
         
         pt = iota.ProposedTransaction(address = iota.Address(CleaningLogAddr),
                                       message = iota.TryteString.from_unicode(json.dumps(data)),
