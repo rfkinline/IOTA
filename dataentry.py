@@ -26,7 +26,7 @@ try:
         print("\nThank you, now hold your ID card near the reader")       
         
         id, text = reader.read()
-        data = {'tagID': str(id), 'product': products, 'ensembled_products': ensembled_products}
+        data = {'tagID': str(id), 'tagText':str(text), 'product': products, 'ensembled_products': ensembled_products}
         
         pt = iota.ProposedTransaction(address = iota.Address(CleaningLogAddr),
                                       message = iota.TryteString.from_unicode(json.dumps(data)),
