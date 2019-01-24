@@ -22,11 +22,11 @@ try:
     while True:
         print("\nIOTA RFID Voting. Project = RFID Test")
         print("Press Ctrl+C to exit the system")
-        ensembled_products = input("\nEnter yes or no to vote: ")
+        result_vote = input("\nEnter yes or no to vote: ")
         print("\nThank you, now hold your ID card near the reader")       
         
         id, text = reader.read()
-        data = {'tagID': str(id), 'vote': vote, 'result vote': result_vote}
+        data = {'tagID': str(id), 'vote': vote, 'result_vote': result_vote}
         
         pt = iota.ProposedTransaction(address = iota.Address(CleaningLogAddr),
                                       message = iota.TryteString.from_unicode(json.dumps(data)),
