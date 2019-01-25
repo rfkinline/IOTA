@@ -15,4 +15,4 @@ try:
     print(text)
 
 finally:
-GPIO.cleanup()
+    GPIO.cleanup()
