@@ -21,8 +21,8 @@ reader = SimpleMFRC522.SimpleMFRC522()
 try:
     while True:
         print("\nIOTA Project Voting")
-        print("Press Ctrl+C to exit the system")
-        casted_vote = raw_input("\nCast your vote (YES/NO) and hit Enter: ")
+        
+# only yes or no allowed
         while True:
            casted_vote = raw_input("\nCast your vote (YES/NO) and hit Enter: ").lower()
            if casted_vote == "yes":
@@ -47,7 +47,9 @@ try:
         FinalBundle = api.send_transfer(depth=3, transfers=[pt], min_weight_magnitude=14)['bundle']
     
         print("\nTransaction sucessfully recorded")
+        break
                 
-except KeyboardInterrupt:
-    print("\ncleaning up")
-GPIO.cleanup()
+finally:
+    print("\nclosing procedure")
+    GPIO.cleanup()
+
