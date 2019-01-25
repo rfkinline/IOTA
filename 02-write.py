@@ -13,9 +13,9 @@ try:
         print("Now place tag next to scanner to write")
         id, text = reader.write(text) 
         print("recorded")
-        
         print(id)
         print(text)
+        break
+        
 finally:
-    print("cleaning up")
 GPIO.cleanup()
