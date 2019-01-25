@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Imports from the PyOTA library
 from iota import Iota
 from iota import Address
@@ -13,10 +15,10 @@ import datetime
 # Import from PrettyTable
 from prettytable import PrettyTable
 
-# Define IOTA address where all transactions (cleaning records) are stored, replace with your own address.
+# Define IOTA address where all transactions are stored, replace with your own address.
 address = [Address(b'XUHJLCCEJSNGQNYHVEGDRCZWXDBZTZMFCSURNCB99XBVRRXSGIBQJDPYRUJVMIMZVTRXKYHWRVLSMTJYZCQAPYISXD')]
 
-# Define full node to be used when retrieving cleaning records
+# Define full node to be used when retrieving the records
 iotaNode = "https://nodes.thetangle.org:443"
 
 # Create an IOTA object
@@ -26,7 +28,7 @@ api = Iota(iotaNode)
 x = PrettyTable()
 
 # Specify column headers for the table
-x.field_names = ["tagID", "tagText", "project", "casted_vote", "last_cleaned"]
+x.field_names = ["tagID", "tagText", "project", "casted_vote", "last_voted"]
 
 # Find all transacions for selected IOTA address
 result = api.find_transactions(addresses=address)
@@ -56,7 +58,7 @@ for txn_hash in myhashes:
     timestamp = txn.timestamp
     
     # Convert timestamp to datetime
-    clean_time = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+    vote_time = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
 
     # Get transaction message as string
     txn_data = str(txn.signature_message_fragment.decode())
@@ -67,10 +69,10 @@ for txn_hash in myhashes:
     # Check if json data has the expected json tag's
     if all(key in json.dumps(json_data) for key in ["tagID","project","casted_vote"]):
         # Add table row with json values
-        x.add_row([json_data['tagID'], json_data['tagText'],json_data['project'], json_data['casted_vote'], clean_time])
+        x.add_row([json_data['tagID'], json_data['tagText'],json_data['project'], json_data['casted_vote'], vote_time])
 
-# Sort table by cleaned datetime
-x.sortby = "last_cleaned"
+# Sort table by time of voting
+x.sortby = "last_voted"
 
 # Print table to terminal
 print(x)
