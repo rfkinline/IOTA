@@ -23,6 +23,15 @@ try:
         print("\nIOTA Project Voting")
         print("Press Ctrl+C to exit the system")
         casted_vote = raw_input("\nCast your vote (YES/NO) and hit Enter: ")
+        while True:
+           casted_vote = raw_input("\nCast your vote (YES/NO) and hit Enter: ").lower()
+           if casted_vote == "yes":
+               print("You voted YES")
+               break
+           elif casted_vote == "no":
+               print("You voted NO")
+               break   
+        
         print("\nThank you, now hold your ID card near the reader")       
         
         id, text = reader.read()
