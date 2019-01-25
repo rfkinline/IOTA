@@ -10,7 +10,7 @@ sys.path.append('/home/pi/MFRC522-python')
 import SimpleMFRC522
 
 # IOTA address
-CleaningLogAddr = b"XUHJLCCEJSNGQNYHVEGDRCZWXDBZTZMFCSURNCB99XBVRRXSGIBQJDPYRUJVMIMZVTRXKYHWRVLSMTJYZCQAPYISXD"
+IOTAAddr = b"XUHJLCCEJSNGQNYHVEGDRCZWXDBZTZMFCSURNCB99XBVRRXSGIBQJDPYRUJVMIMZVTRXKYHWRVLSMTJYZCQAPYISXD"
 
 # IOTA full node
 api = iota.Iota("https://nodes.thetangle.org:443")
@@ -37,7 +37,7 @@ try:
         id, text = reader.read()
         data = {'tagID': str(id), 'tagText':str(text), 'project': project, 'casted_vote': casted_vote}
         
-        pt = iota.ProposedTransaction(address = iota.Address(CleaningLogAddr),
+        pt = iota.ProposedTransaction(address = iota.Address(IOTAAddr),
                                       message = iota.TryteString.from_unicode(json.dumps(data)),
                                       tag     = iota.Tag(b'VOTERFIDMIAMI'),
                                       value   = 0)
@@ -50,6 +50,5 @@ try:
         break
                 
 finally:
-    print("\nclosing procedure")
     GPIO.cleanup()
 
