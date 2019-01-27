@@ -10,7 +10,7 @@ reader = SimpleMFRC522.SimpleMFRC522()
 try:
     while True:
         text = raw_input('Your Name: ')
-        print("Now place tag next to scanner to write")
+        print("Now place tag next to the scanner to write")
         id, text = reader.write(text) 
         print("recorded")
         print(id)
@@ -18,4 +18,4 @@ try:
         break
         
 finally:
-GPIO.cleanup()
+    GPIO.cleanup()
