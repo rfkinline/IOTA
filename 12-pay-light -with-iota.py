@@ -1,3 +1,6 @@
+# This program checks if a payment arrived on an IOTA address and then acts accordingly. This program does not initiate a payment
+# That is why no seed is needed
+#
 # Imports some Python Date/Time functions
 import time
 import datetime
