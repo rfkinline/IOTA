@@ -7,7 +7,7 @@ import iota
 import sys
 import RPi.GPIO as GPIO
 sys.path.append('/home/pi/MFRC522-python')
-import SimpleMFRC522
+from mfrc522 import SimpleMFRC522
 
 # IOTA address
 IOTAAddr = b"XUHJLCCEJSNGQNYHVEGDRCZWXDBZTZMFCSURNCB99XBVRRXSGIBQJDPYRUJVMIMZVTRXKYHWRVLSMTJYZCQAPYISXD"
@@ -16,7 +16,7 @@ IOTAAddr = b"XUHJLCCEJSNGQNYHVEGDRCZWXDBZTZMFCSURNCB99XBVRRXSGIBQJDPYRUJVMIMZVTR
 api = iota.Iota("https://nodes.thetangle.org:443")
 
 project = "Voting via RFID"
-reader = SimpleMFRC522.SimpleMFRC522()
+reader = SimpleMFRC522()
 
 try:
     while True:
