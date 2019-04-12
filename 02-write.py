@@ -3,9 +3,9 @@
 import RPi.GPIO as GPIO
 import sys
 sys.path.append('/home/pi/MFRC522-python')
-import SimpleMFRC522
+from mfrc522 import SimpleMFRC522
 
-reader = SimpleMFRC522.SimpleMFRC522()
+reader = SimpleMFRC522()
 
 try:
     while True:
