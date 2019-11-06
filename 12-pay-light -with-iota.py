@@ -1,32 +1,31 @@
-# This program checks if a payment arrived on an IOTA address and then acts accordingly. This program does not initiate a payment
-# That is why no seed is needed
-#
-# Imports some Python Date/Time functions
-import time
-import datetime
-
-# Imports GPIO library
-import RPi.GPIO as GPIO
+import time               #  Date/Time functions
+import RPi.GPIO as GPIO   # Imports GPIO library
+GPIO.setwarnings(False)   # Otherwise you might get a GPIO warning in the beginning
 
 # Imports the PyOTA library
 from iota import Iota
 from iota import Address
 
-# Setup O/I PIN's
-LEDPIN=18
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-GPIO.setup(LEDPIN,GPIO.OUT)
-GPIO.output(LEDPIN,GPIO.LOW)
-
-
-# Function for checking address balance on the IOTA tangle. 
-def checkbalance():
-
-    print("Checking balance")
+# Function to check the balance of an IOTA address
+def iotabalance():
     gb_result = api.get_balances(address)
     balance = gb_result['balances']
     return (balance[0])
+
+# Define some variables
+powerbalance = 0
+lastbalance = 0
+counter = 0
+
+channel = 21
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(channel, GPIO.OUT, initial=GPIO.LOW)
+
+def light_on(pin):
+    GPIO.output(pin, GPIO.HIGH)  # Turn light on
+
+def light_off(pin):
+    GPIO.output(pin, GPIO.LOW) # Turn light off
 
 # URL to IOTA fullnode used when checking balance
 iotaNode = "https://nodes.thetangle.org:443"
@@ -34,48 +33,38 @@ iotaNode = "https://nodes.thetangle.org:443"
 # Create an IOTA object
 api = Iota(iotaNode, "")
 
-# IOTA address to be checked for new light funds 
-# IOTA addresses can be created using the IOTA Wallet
-address = [Address(b'GTZUHQSPRAQCTSQBZEEMLZPQUPAA9LPLGWCKFNEVKBINXEXZRACVKKKCYPWPKH9AWLGJHPLOZZOYTALAWOVSIJIYVZ')]
+# IOTA address that will be used for the payments
+address = [Address(b'KOZBOLMIXXTNTNSS9MSLBICPHKCESOLFMSUNRAODYJYDDLUFXSKXGIIOERSJNKEXRZFEWWGVYMTQKPQJZVDQLLRFZ9')]
 
-# Get current address balance at startup and use as baseline for measuring new funds being added.   
-currentbalance = checkbalance()
+# Get current address balance at startup and use it as a baseline when new funds are being added.   
+currentbalance = iotabalance()
 lastbalance = currentbalance
+# for testing purposes remove comment sign (avoids having to do the IOTA transfer)
+# powerbalance = 12
 
-# Define some variables
-lightbalance = 0
-balcheckcount = 0
-lightstatus = False
-
-# Main loop that executes every 1 second
+# Main loop starts here
 while True:
-    
-    # Check for new funds and add to lightbalance when found.
-    if balcheckcount == 10:
-        currentbalance = checkbalance()
-        if currentbalance > lastbalance:
-            lightbalance = lightbalance + (currentbalance - lastbalance)
-            lastbalance = currentbalance
-        balcheckcount = 0
 
-    # Manage light balance and light ON/OFF
-    if lightbalance > 0:
-        if lightstatus == False:
-            print("light ON")
-            GPIO.output(LEDPIN,GPIO.HIGH)
-            lightstatus=True
-        lightbalance = lightbalance -1       
+# Check every 10 seconds for new funds arrived and add them to powerbalance.
+    if counter > 9:
+        currentbalance = iotabalance()
+        if currentbalance > lastbalance:
+            powerbalance = powerbalance + (currentbalance - lastbalance)
+            lastbalance = currentbalance
+        counter = 0
+# Manage power balance and light ON/OFF.
+    if powerbalance > 0:
+        light_on(channel)
+        powerbalance = powerbalance - 1
     else:
-        if lightstatus == True:
-            print("light OFF")
-            GPIO.output(LEDPIN,GPIO.LOW)
-            lightstatus=False
+        light_off(channel)
  
-    # Print remaining light balance     
-    print(datetime.timedelta(seconds=lightbalance))
+    # Print remaining balance
+    print ("balance: "),
+    print (powerbalance)
 
     # Increase balance check counter
-    balcheckcount = balcheckcount +1
+    counter = counter + 1
 
-    # Pause for 1 sec.
+    # wait 1 sec.
     time.sleep(1)
